@@ -9,7 +9,39 @@ import os
 import subprocess  # For Git commands
 import sys
 import os
-# ... (rest of your imports) ...
+
+import sys
+import os
+import importlib.util
+
+
+def closeEvent(self, event):
+        for i in range(self.tabWidget.count()):
+            if self.isTabModified(i):
+                response = QMessageBox.question(
+                    self,
+                    "Unsaved Changes",
+                    f"The document in tab {i+1} has unsaved changes. Do you want to save them?",
+                    QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel
+                )
+
+                if response == QMessageBox.Yes:
+                    self.saveFile()
+                elif response == QMessageBox.Cancel:
+                    event.ignore()
+                    return  # Don't close the application
+        event.accept()  # Close the application if all tabs are saved or user chooses not to save
+
+def isTabModified(self, index):
+        """Checks if the tab at the given index is modified."""
+        widget = self.tabWidget.widget(index)
+        if widget:
+            textEdit = widget.findChild(QTextEdit)
+            if textEdit:
+                return textEdit.document().isModified()
+        return False
+
+
 
 class TextEditor(QMainWindow):
     # ... (other methods) ...

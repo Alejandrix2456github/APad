@@ -1,0 +1,1 @@
+basically it wont have icons because python by default searches in system32 if the code searches for a image
